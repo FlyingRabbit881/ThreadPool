@@ -63,6 +63,7 @@ template<class F, class... Args>
 auto ThreadPool::enqueue(F&& f, Args&&... args)
 -> std::future<typename std::result_of<typename std::decay<F>::type(typename std::decay<Args>::type...)>::type>
 {
+    // 这里我参考了std::async的返回值，std::async也是将f和args存一份拷贝
     using return_type = typename std::result_of<typename std::decay<F>::type(typename std::decay<Args>::type...)>::type;
 
     auto task = std::make_shared< std::packaged_task<return_type()> >(
